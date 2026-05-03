@@ -11,6 +11,8 @@ unsigned char * sumMod2(unsigned char *vecA, size_t bitsA, unsigned char *vecB, 
 void shiftRight(unsigned char *vec, size_t bits, size_t k);
 void shiftLeft(unsigned char *vec, size_t bits, size_t k);
 void inversion(unsigned char *vec, size_t bits);
+void set1(unsigned char *vec, size_t bits, size_t bit);
+void set0(unsigned char *vec, size_t bits, size_t bit);
 
 int main()
 {
@@ -260,4 +262,30 @@ void inversion(unsigned char *vec, size_t bits)
     mask = mask >> tailLen;
     vec[cells - 1] = vec[cells - 1] & mask;
   }
+}
+
+void set1(unsigned char *vec, size_t bits, size_t bit)
+{
+  if(!vec) return;
+  if(bits - 1 < bit) return;
+
+  size_t byte = bit / 8;
+  size_t shiftForMask = bit % 8;
+
+  unsigned char mask = 1;
+  mask = mask << shiftForMask;
+  vec[byte] = vec[byte] | mask;
+}
+
+void set0(unsigned char *vec, size_t bits, size_t bit)
+{
+  if(!vec) return;
+  if(bits - 1 < bit) return;
+
+  size_t byte = bit / 8;
+  size_t shiftForMask = bit % 8;
+
+  unsigned char mask = 1;
+  mask = mask << shiftForMask;
+  vec[byte] = (vec[byte] | mask) ^ mask;
 }
