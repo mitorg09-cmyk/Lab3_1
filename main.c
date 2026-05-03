@@ -8,6 +8,8 @@ void PrintBV(unsigned char* vec, size_t bits);
 unsigned char * logMul(unsigned char *vecA, size_t bitsA, unsigned char *vecB, size_t bitsB);
 unsigned char * logSum(unsigned char *vecA, size_t bitsA, unsigned char *vecB, size_t bitsB);
 unsigned char * sumMod2(unsigned char *vecA, size_t bitsA, unsigned char *vecB, size_t bitsB);
+void shiftRight(unsigned char *vec, size_t bits, size_t k);
+void shiftLeft(unsigned char *vec, size_t bits, size_t k);
 
 int main()
 {
@@ -177,4 +179,64 @@ unsigned char * sumMod2(unsigned char *vecA, size_t bitsA, unsigned char *vecB, 
   }
 
   return vec;
+}
+
+void shiftRight(unsigned char *vec, size_t bits, size_t k)
+{
+  if(!vec) return;
+
+  size_t cells = ((bits - 1) / 8) + 1;
+  size_t indxToCopy = k / 8;
+  size_t shift = k % 8;
+  size_t tailLen = cells * 8 - bits;
+
+  for(int i = cells - 1; i >= 0; i--)
+  {
+    if(i - indxToCopy >= 0)
+    {
+      vec[i] = vec[i - indxToCopy];
+    }
+    else
+    {
+      vec[i] = 0;
+    }
+
+    if(i - indxToCopy - 1 >= 0)
+      vec[i] = (vec[i] << shift) | (vec[i - indxToCopy - 1] >> (8 - shift));
+    else
+      vec[i] = vec[i] << shift;
+  }
+
+  if(tailLen > 0)
+  {
+    unsigned char mask = 255; // ~0 == cell full of ones
+    mask = mask >> tailLen;
+    vec[cells - 1] = vec[cells - 1] & mask;
+  }
+}
+
+void shiftLeft(unsigned char *vec, size_t bits, size_t k)
+{
+  if(!vec) return;
+
+  size_t cells = ((bits - 1) / 8) + 1;
+  size_t indxToCopy = k / 8;
+  size_t shift = k % 8;
+
+  for(int i = 0; i < cells; i++)
+  {
+    if(i + indxToCopy < cells)
+    {
+      vec[i] = vec[i + indxToCopy];
+    }
+    else
+    {
+      vec[i] = 0;
+    }
+
+    if(i + indxToCopy + 1 < cells)
+      vec[i] = (vec[i] >> shift) | (vec[i + indxToCopy + 1] << (8 - shift));
+    else
+      vec[i] = vec[i] >> shift;
+  }
 }
