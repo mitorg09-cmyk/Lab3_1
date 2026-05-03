@@ -10,6 +10,7 @@ unsigned char * logSum(unsigned char *vecA, size_t bitsA, unsigned char *vecB, s
 unsigned char * sumMod2(unsigned char *vecA, size_t bitsA, unsigned char *vecB, size_t bitsB);
 void shiftRight(unsigned char *vec, size_t bits, size_t k);
 void shiftLeft(unsigned char *vec, size_t bits, size_t k);
+void inversion(unsigned char *vec, size_t bits);
 
 int main()
 {
@@ -238,5 +239,25 @@ void shiftLeft(unsigned char *vec, size_t bits, size_t k)
       vec[i] = (vec[i] >> shift) | (vec[i + indxToCopy + 1] << (8 - shift));
     else
       vec[i] = vec[i] >> shift;
+  }
+}
+
+void inversion(unsigned char *vec, size_t bits)
+{
+  if(!vec) return;
+
+  size_t cells = ((bits - 1) / 8) + 1;
+  size_t tailLen = cells * 8 - bits;
+
+  for(int i = 0; i < cells; i++)
+  {
+    vec[i] = ~vec[i];
+  }
+
+  if(tailLen > 0)
+  {
+    unsigned char mask = 255; // ~0 == cell full of ones
+    mask = mask >> tailLen;
+    vec[cells - 1] = vec[cells - 1] & mask;
   }
 }
