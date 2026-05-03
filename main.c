@@ -5,6 +5,9 @@
 unsigned char* strToLongBV(char* str1, size_t* len);
 char* LongBVtoStr(unsigned char* vec, size_t len);
 void PrintBV(unsigned char* vec, size_t bits);
+unsigned char * logMul(unsigned char *vecA, size_t bitsA, unsigned char *vecB, size_t bitsB);
+unsigned char * logSum(unsigned char *vecA, size_t bitsA, unsigned char *vecB, size_t bitsB);
+unsigned char * sumMod2(unsigned char *vecA, size_t bitsA, unsigned char *vecB, size_t bitsB);
 
 int main()
 {
@@ -120,4 +123,58 @@ void PrintBV(unsigned char* vec, size_t bits)
     }
   }
   printf("\n");
+}
+
+unsigned char* logMul(unsigned char *vecA, size_t bitsA, unsigned char *vecB, size_t bitsB)
+{
+  if(!vecA || !vecB) return NULL;
+  if(bitsA != bitsB) return NULL;
+
+  size_t cells = ((bitsA - 1) / 8) + 1;
+
+  unsigned char* vec = (unsigned char*)calloc(cells, sizeof(unsigned char));
+  if(!vec) return NULL;
+
+  for(size_t i = 0; i < cells; i++)
+  {
+    vec[i] = (vecA[i]) & (vecB[i]);
+  }
+
+  return vec;
+}
+
+unsigned char* logSum(unsigned char *vecA, size_t bitsA, unsigned char *vecB, size_t bitsB)
+{
+  if(!vecA || !vecB) return NULL;
+  if(bitsA != bitsB) return NULL;
+
+  size_t cells = ((bitsA - 1) / 8) + 1;
+
+  unsigned char* vec = (unsigned char*)calloc(cells, sizeof(unsigned char));
+  if(!vec) return NULL;
+
+  for(size_t i = 0; i < cells; i++)
+  {
+    vec[i] = (vecA[i]) | (vecB[i]);
+  }
+
+  return vec;
+}
+
+unsigned char * sumMod2(unsigned char *vecA, size_t bitsA, unsigned char *vecB, size_t bitsB)
+{
+  if(!vecA || !vecB) return NULL;
+  if(bitsA != bitsB) return NULL;
+
+  size_t cells = ((bitsA - 1) / 8) + 1;
+
+  unsigned char* vec = (unsigned char*)calloc(cells, sizeof(unsigned char));
+  if(!vec) return NULL;
+
+  for(size_t i = 0; i < cells; i++)
+  {
+    vec[i] = (vecA[i]) ^ (vecB[i]);
+  }
+
+  return vec;
 }
