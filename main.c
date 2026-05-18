@@ -16,12 +16,16 @@ void set0(unsigned char *vec, size_t bits, size_t bit);
 
 int main()
 {
-    // for Str test
+    //for Str test
     // char str[256] =  "01010111111010101001010101010";
     // size_t len = 0;
     // unsigned char* vec = strToLongBV(str, &len);
-    // char* nStr = LongBVtoStr(str, len);
+    // char* nStr = LongBVtoStr(vec, len);
     // printf("%s \n", nStr);
+    // free(vec);
+    // vec = NULL;
+    // free(nStr);
+    // nStr = NULL;
 
     // for logmul test
     // char str[256] =  "01010111111010";
@@ -32,9 +36,15 @@ int main()
     // unsigned char* vec1 = strToLongBV(str1, &len1);
     // unsigned char* vec2 = logMul(vec, len, vec1, len1);
     // PrintBV(vec2, len);
+    // free(vec2);
+    // vec2 = NULL;
+    // free(vec1);
+    // vec1 = NULL;
+    // free(vec);
+    // vec = NULL;
 
     // for logsum test
-    // char str[256] =  "01010111111010";
+    // char str[256] =  "10100101010101";
     // char str1[256] = "11010100010010";
     // size_t len = 0;
     // size_t len1 = 0;
@@ -42,18 +52,30 @@ int main()
     // unsigned char* vec1 = strToLongBV(str1, &len1);
     // unsigned char* vec2 = logSum(vec, len, vec1, len1);
     // PrintBV(vec2, len);
+    // free(vec2);
+    // vec2 = NULL;
+    // free(vec1);
+    // vec1 = NULL;
+    // free(vec);
+    // vec = NULL;
 
     // for summod2 test
-    // char str[256] =  "01010111111010";
-    // char str1[256] = "11010100010010";
+    // char str[256] =  "00000011111111";
+    // char str1[256] = "00000011111111";
     // size_t len = 0;
     // size_t len1 = 0;
     // unsigned char* vec = strToLongBV(str, &len);
     // unsigned char* vec1 = strToLongBV(str1, &len1);
     // unsigned char* vec2 = sumMod2(vec, len, vec1, len1);
     // PrintBV(vec2, len);
+    // free(vec2);
+    // vec2 = NULL;
+    // free(vec1);
+    // vec1 = NULL;
+    // free(vec);
+    // vec = NULL;
 
-    // for shifts test (long simple BV)
+    // for shifts and invers test (long simple BV)
     // char str[256] =  "01010111111010101010101010111101111";
     // size_t len = 0;
     // unsigned char* vec = strToLongBV(str, &len);
@@ -67,8 +89,10 @@ int main()
     // PrintBV(vec, len);
     // shiftLeft(vec, len, 5);
     // PrintBV(vec, len);
+    // free(vec);
+    // vec = NULL;
 
-    // for shifts test (full of ones BV)
+    // for shifts and invers test (full of ones BV)
     // char str[256] =  "111111111111111111111111111111111111111111";
     // size_t len = 0;
     // unsigned char* vec = strToLongBV(str, &len);
@@ -82,40 +106,34 @@ int main()
     // PrintBV(vec, len);
     // shiftLeft(vec, len, 5);
     // PrintBV(vec, len);
+    // free(vec);
+    // vec = NULL;
 
     // for bit set test
-    char str[256] =  "10101101001010101001";
-    size_t len = 0;
-    unsigned char* vec = strToLongBV(str, &len);
-    printf("%d \n", len);
-    PrintBV(vec, len);
-    set0(vec, len, 1);
-    PrintBV(vec, len);
+    // char str[256] =  "10101101001010101001";
+    // size_t len = 0;
+    // unsigned char* vec = strToLongBV(str, &len);
+    // printf("%d \n", len);
+    // PrintBV(vec, len);
+    // set0(vec, len, 1);
+    // PrintBV(vec, len);
 
-    size_t ix = 0;
-    size_t cells = ((len - 1) / 8) + 1;
-    unsigned char mask = 1;
-    for(size_t i = 0; i < cells; i++)
-    {
-      mask = 1;
-      for(size_t j = 0; j < 8 && ix < len; j++)
-      {
-        if(vec[i] & mask) set0(vec, len, ix);
-        ix++;
-        mask = mask << 1;
-      }
-    }
-    PrintBV(vec, len);
-
-
-    // free(vec2);
-    // vec2 = NULL;
-    // free(vec1);
-    // vec1 = NULL;
-    free(vec);
-    vec = NULL;
-    // free(nStr);
-    // nStr = NULL;
+    // size_t ix = 0;
+    // size_t cells = ((len - 1) / 8) + 1;
+    // unsigned char mask = 1;
+    // for(size_t i = 0; i < cells; i++)
+    // {
+    //   mask = 1;
+    //   for(size_t j = 0; j < 8 && ix < len; j++)
+    //   {
+    //     if(vec[i] & mask) set0(vec, len, ix);
+    //     ix++;
+    //     mask = mask << 1;
+    //   }
+    // }
+    // PrintBV(vec, len);
+    // free(vec);
+    // vec = NULL;
 }
 
 unsigned char* strToLongBV(char* str1, size_t* len)
